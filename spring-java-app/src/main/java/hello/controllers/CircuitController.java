@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.ArrayList;
-
 
 @RestController
 public class CircuitController {
@@ -30,27 +30,24 @@ public class CircuitController {
     
     
     //create
-    @RequestMapping(value="/circuit/{id>},{nume}", method = RequestMethod.POST)
-  public ResponseEntity create(@PathVariable("id") int id,@PathVariable("nume") String nume) {
-   this.circuite.add (new Circuit (id, "Nume"));
-      Circuit p = new Circuit(id,nume);
-      this.circuite.add(p);
+    @RequestMapping(value="/circuit", method = RequestMethod.POST)
+  public ResponseEntity create(@RequestBody Circuit p) {
+   circuite.add(p);
       return new ResponseEntity<Circuit>(p, new HttpHeaders(), HttpStatus.OK);
   }
     
     
     //Update
-    @RequestMapping(value="/circuit/{id>},{nume}", method = RequestMethod. PUT)
-    public ResponseEntity update(@PathVariable("id") int id,@PathVariable("nume") String nume) {
-        for(Circuit p: this.circuite) {
-            if(p.getId() == id) {
-                p.setName(nume);
-         return new ResponseEntity<Circuit>(p, new HttpHeaders(), HttpStatus.OK);        
-            }
-        } return new ResponseEntity<String>(null, new HttpHeaders(), HttpStatus.NOT_FOUND);
-
+    @RequestMapping(value="/circuit", method = RequestMethod.PUT)
+  public List<Circuit> update(@RequestBody Circuit p){
+    for(Circuit pers : this.circuite){
+      if(pers.getId() == p.getId())    {
+    circuite.set(circuite.indexOf(pers), p);
+      }
     }
-    
+    return this.circuite;
+  }
+                
     
     
     

@@ -1,13 +1,10 @@
 body {
   margin-top:20px;
-  margin-bottom:30px;
-background-color:deepskyblue;
-    color:black;
-
+  margin-bottom:200px;
 }
 
 .label {
-  margin-right: 2px;
+  margin-right: 5px;
 }
 
 .comments blockquote {
@@ -25,21 +22,4 @@ background-color:deepskyblue;
 
 a:hover, a:focus {
   text-decoration:none;
-}
-
-
-.show {
-	display: none;
-}
-.hide:focus + .show {
-	display: inline;
-}
-.hide:focus {
-	display: none;
-}
-.hide:focus ~ #list { display:none; }
-@media print {
-.hide, .show {
-	display: none;
-}
 }

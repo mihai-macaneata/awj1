@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -17,9 +18,9 @@ public class PilotController {
   private List<Pilot> piloti = new ArrayList<Pilot>();
 
   PilotController() {
-    Pilot p1 = new Pilot(1, "John");
-    Pilot p2 = new Pilot(2, "Paul");
-    Pilot p3 = new Pilot(3, "Paul");
+    Pilot p1 = new Pilot(1, "Johnpilot", 20);
+    Pilot p2 = new Pilot(2, "Paulpilot", 50);
+    Pilot p3 = new Pilot(3, "Paulpilot", 69);
 
     piloti.add(p1);
     piloti.add(p2);
@@ -30,28 +31,24 @@ public class PilotController {
     
     
     //create
-    @RequestMapping(value="/pilot/{id>},{nume}", method = RequestMethod.POST)
-  public ResponseEntity create(@PathVariable("id") int id,@PathVariable("nume") String nume) {
-   this.piloti.add (new Pilot (id, "Nume"));
-      Pilot p = new Pilot(id,nume);
-      this.piloti.add(p);
+    @RequestMapping(value="/pilot", method = RequestMethod.POST)
+  public ResponseEntity create(@RequestBody Pilot p) {
+  piloti.add(p);
       return new ResponseEntity<Pilot>(p, new HttpHeaders(), HttpStatus.OK);
   }
     
     
     //Update
-    @RequestMapping(value="/pilot/{id>},{nume}", method = RequestMethod. PUT)
-    public ResponseEntity update(@PathVariable("id") int id,@PathVariable("nume") String nume) {
-        for(Pilot p: this.piloti) {
-            if(p.getId() == id) {
-                p.setName(nume);
-                return new ResponseEntity<Pilot>(p, new HttpHeaders(), HttpStatus.OK);
-            }
-        }   return new ResponseEntity<String>(null, new HttpHeaders(), HttpStatus.NOT_FOUND);
+    @RequestMapping(value="/pilot", method = RequestMethod.PUT)
+  public List<Pilot> update(@RequestBody Pilot p){
+    for(Pilot pers : this.piloti){
+      if(pers.getId() == p.getId())    {
+    piloti.set(piloti.indexOf(pers), p);
+      }
     }
-    
-    
-    
+    return this.piloti;
+  }
+                
     
     
     //Show all
